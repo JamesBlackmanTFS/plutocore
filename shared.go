@@ -36,7 +36,7 @@ type Basemethods struct {
 }
 
 var (
-	brokerList = kingpin.Flag("brokerList", "List of brokers to connect").Default("127.0.0.1:9092").Strings()
+	brokerList = kingpin.Flag("brokerList", "List of brokers to connect").Default("pluto_kafka:9092").Strings()
 	maxRetry   = kingpin.Flag("maxRetry", "Retry limit").Default("5").Int()
 	partition  = kingpin.Flag("partition", "Partition number").Default("0").String()
 	offsetType = kingpin.Flag("offsetType", "Offset Type (OffsetNewest | OffsetOldest)").Default("-1").Int()
@@ -60,8 +60,9 @@ func NewUUID() (string, error) {
 
 //OpenConsumer allows other libraries to use this
 func OpenConsumer(topic string) (sarama.Consumer, sarama.PartitionConsumer, int64) {
-	// fmt.Println("Consuming", topic)
+
 	kingpin.Parse()
+	fmt.Println("Consuming topic ", topic, " from broker ", *brokerList)
 	config := sarama.NewConfig()
 
 	config.Consumer.Return.Errors = true
