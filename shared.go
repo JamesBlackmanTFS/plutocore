@@ -224,7 +224,7 @@ func WaitForConsumers(serviceConfig *ServiceConfig) {
 }
 
 //CreateServiceConfig - Config
-func CreateServiceConfig(port string) *ServiceConfig {
+func CreateServiceConfig(port string, logMode bool) *ServiceConfig {
 	s := ServiceConfig{
 		Port:          port,
 		ConsumerCount: 0,
@@ -243,7 +243,7 @@ func CreateServiceConfig(port string) *ServiceConfig {
 
 	//Experiment with this ...
 	s.DB.DB().SetMaxOpenConns(1)
-	s.DB.LogMode(true)
+	s.DB.LogMode(logMode)
 
 	signal.Notify(s.Signals, os.Interrupt)
 	return &s
