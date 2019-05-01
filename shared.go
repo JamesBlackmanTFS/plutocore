@@ -98,7 +98,7 @@ func EnableCors(w *http.ResponseWriter) {
 }
 
 //StreamEvent pushes event onto kafka
-func StreamEvent(topic string, key string, jsonData []byte) {
+func StreamEvent(topic string, key string, jsonData []byte) error {
 	kingpin.Parse()
 	config := sarama.NewConfig()
 	config.Producer.RequiredAcks = sarama.WaitForAll
@@ -121,8 +121,9 @@ func StreamEvent(topic string, key string, jsonData []byte) {
 	// fmt.Printf("\nMessage is [%v]\n", msg)
 	_, _, err = producer.SendMessage(msg)
 	if err != nil {
-		panic(err)
+		return (err)
 	}
+	return nil
 	// fmt.Printf("Message is stored in topic(%s)/partition(%d)/offset(%d)\n", topic, partition, offset)
 }
 
