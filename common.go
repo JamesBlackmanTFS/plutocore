@@ -32,7 +32,7 @@ func StartConsume(topic string, serviceConfig *ServiceConfig, f func(*sarama.Con
 				fmt.Println("ERROR CONSUMING TOPIC ", topic)
 
 			case msg := <-consumer.Messages():
-				// fmt.Println(topic, " - ", msg.Offset+1, " of ", offset)
+				fmt.Println(topic, " - ", msg.Offset+1, " of ", offset)
 				// rm.Forward <- msg.Key
 				f(msg, rm, db)
 				// *shared.MessageCountStart++
