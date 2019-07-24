@@ -64,7 +64,8 @@ func OpenConsumer(topic string) (sarama.Consumer, sarama.PartitionConsumer, int6
 	kingpin.Parse()
 	fmt.Println("Consuming topic ", topic, " from broker ", *brokerList)
 	config := sarama.NewConfig()
-
+	//config.Version = sarama.V0_11_0_2
+	config.Version = sarama.MaxVersion
 	config.Consumer.Return.Errors = true
 	brokers := *brokerList
 
@@ -104,6 +105,8 @@ func StreamEvent(topic string, key string, jsonData []byte) error {
 	config.Producer.RequiredAcks = sarama.WaitForAll
 	config.Producer.Retry.Max = *maxRetry
 	config.Producer.Return.Successes = true
+	config.Version = sarama.MaxVersion
+
 	producer, err := sarama.NewSyncProducer(*brokerList, config)
 	if err != nil {
 		panic(err)
